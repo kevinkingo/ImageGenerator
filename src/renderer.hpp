@@ -1,0 +1,32 @@
+//
+//  renderer.hpp
+//  Image_Generator
+//
+//  Created by Kingo on 1/21/16.
+//  Copyright © 2016 Kingo. All rights reserved.
+//
+
+#ifndef renderer_hpp
+#define renderer_hpp
+
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include "camera.hpp"
+#include "board.hpp"
+
+class Renderer {
+public:
+    Renderer(const Config &config);
+    
+    void render(const Camera &camera, const Board &board, std::string filename);
+    
+    bool write(Vec* content, std::string filename);
+    
+private:
+    int w_, h_;
+    int subpix_num_, sample_num_;
+    
+};
+
+#endif /* renderer_hpp */
