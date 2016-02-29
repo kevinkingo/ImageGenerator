@@ -13,45 +13,82 @@ enum BoardType {CHESSBOARD, RING};
 
 class Config {
 public:
-    double ratio = 1.0;
+    Config() {
+        ratio = 1.0;
+        
+        /*** Picture ***/
+        pic_num = 1;
+        pic_width = 1920 * ratio;
+        pic_height = 1080 * ratio;
+        
+        /*** Board ***/
+        type = RING;
+        board_width = 400.0; //in millimeter
+        board_height = 300.0; //in millimeter
+        pattern_col_num = 12;
+        pattern_row_num = 8;
+        pattern_size = 25.0;
+        //padding_x and padding_y is calculated automatically
+        
+        ring_step_radius = 2.5;
+        ring_num = 4;
+        
+        /*** Camera ***/
+        focus_x = 1600 * ratio; //in pixel
+        focus_y = 1600 * ratio; //in pixel
+        ux = pic_width / 2.0;
+        uy = pic_height / 2.0;
+        gamma = 0.0;
+        
+        aperture = 600.0;
+        
+        k1 = 0.0;
+        k2 = 0.0;
+        p1 = 0.0;
+        p2 = 0.0;
+        k3 = 0.0;
+        
+        /*** Noise ***/
+        
+        
+        /*** Debug ***/
+        subpix_num = 3;
+        sample_num = 30;
+    }
+    
+    double ratio;
     /*** Picture ***/
-    int pic_num = 1;
-    int pic_width = 1920 * ratio;
-    int pic_height = 1080 * ratio;
+    int pic_num;
+    int pic_width;
+    int pic_height;
     
     /*** Board ***/
-    BoardType type = RING;
-    double board_width = 400; //in millimeter
-    double board_height = 300; //in millimeter
-    int pattern_col_num = 12;
-    int pattern_row_num = 8;
-    double pattern_size = 25;
+    BoardType type;
+    double board_width; //in millimeter
+    double board_height; //in millimeter
+    int pattern_col_num;
+    int pattern_row_num;
+    double pattern_size;
     //padding_x and padding_y is calculated automatically
     
-    double ring_step_radius = 2.5;
-    int ring_num = 4;
+    double ring_step_radius;
+    int ring_num;
     
     /*** Camera ***/
-    double focus_x = 1600 * ratio; //in pixel
-    double focus_y = 1600 * ratio; //in pixel
-    double ux = pic_width / 2.0;
-    double uy = pic_height / 2.0;
-    double gamma = 0.0;
+    double focus_x, focus_y; //in pixel
+    double ux, uy;
+    double gamma;
     
-    double aperture = 600.0;
+    double aperture;
     
-    double k1 = 0.0;
-    double k2 = 0.0;
-    double p1 = 0.0;
-    double p2 = 0.0;
-    double k3 = 0.0;
+    double k1, k2, p1, p2, k3;
     
     /*** Noise ***/
     
     
     /*** Debug ***/
-    int subpix_num = 3;
-    int sample_num = 30;
+    int subpix_num;
+    int sample_num;
     
 };
 
