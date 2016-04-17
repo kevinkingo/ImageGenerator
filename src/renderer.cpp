@@ -51,6 +51,7 @@ Renderer::Renderer(const Config &config) {
     subpix_num_ = config.subpix_num;
     sample_num_ = config.sample_num;
     uniform_noise_amp_ = config.uniform_noise_amp;
+    gradient_illumin_ = config.gradient_illumin;
 }
 
 void Renderer::worker(const Camera &camera, const Board &board, Vec *data) {
@@ -101,9 +102,10 @@ bool Renderer::write(Vec* content, std::string filename) {
     
     for (int y = 0; y < h_; y++) {
         unsigned short Xi[3] = {0, 0, static_cast<unsigned short>(y * y * y * y)};
+        double gradient_ratio = 1 - (1 - gradient_illumin_) * y / h_;
         for(int x = 0; x < w_; x++) {
             double uniform_noise = (erand48(Xi) - 0.5) * 2 * uniform_noise_amp_;
-            fprintf(f, "%d %d %d ", toInt(content[y * w_ + x].x + uniform_noise), toInt(content[y * w_ + x].y + uniform_noise), toInt(content[y * w_ + x].z + uniform_noise));
+            fprintf(f, "%d %d %d ", toInt((content[y * w_ + x].x * gradient_ratio + uniform_noise)), toInt((content[y * w_ + x].y * gradient_ratio + uniform_noise)), toInt((content[y * w_ + x].z * gradient_ratio + uniform_noise)));
         }
         fprintf(f, "\n");
     }

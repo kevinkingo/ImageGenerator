@@ -14,7 +14,7 @@ enum BoardType {CHESSBOARD, RING};
 class Config {
 public:
     Config() {
-        ratio = 1.0;
+        ratio = 0.25;
         
         /*** Picture ***/
         pic_num = 1;
@@ -52,7 +52,8 @@ public:
         black_level = 50.0 / 255;  //Pixel value of the black part on board
         white_level = 200.0 / 255; //Pixel value of the white part on board
         
-        uniform_noise_amp = 0.05; //This noise is define under color space of [0, 1];
+        uniform_noise_amp = 0.02; //This noise is define under color space of [0, 1];
+        gradient_illumin = 0.05;
         
         /*** Debug ***/
         subpix_num = 3;
@@ -91,6 +92,7 @@ public:
     double white_level;
     
     double uniform_noise_amp; //This noise is define under color space of [0, 1];
+    double gradient_illumin;
     
     /*** Debug ***/
     int subpix_num;

@@ -30,6 +30,7 @@ private:
     int subpix_num_, sample_num_;
     
     double uniform_noise_amp_;
+    double gradient_illumin_;
     
     static constexpr int worker_num_ = 4;
     
