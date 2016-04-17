@@ -27,6 +27,8 @@ private:
     int w_, h_;
     int subpix_num_, sample_num_;
     
+    double uniform_noise_amp_;
+    
 };
 
 #endif /* renderer_hpp */

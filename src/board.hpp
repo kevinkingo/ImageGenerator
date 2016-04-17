@@ -41,6 +41,8 @@ private:
     double ring_step_radius_;
     int ring_num_;
     
+    double bw_level_[2];
+    
 };
 
 #endif /* board_hpp */

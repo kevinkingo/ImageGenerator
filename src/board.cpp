@@ -33,6 +33,9 @@ Board::Board(Config &config, const Vec &pos, const Vec &x_dir, const Vec &y_dir)
     
     ring_step_radius_ = config.ring_step_radius;
     ring_num_ = config.ring_num;
+    
+    bw_level_[0] = config.black_level;
+    bw_level_[1] = config.white_level;
 }
 
 Vec Board::intersect(const Ray &ray, double &t) const {
@@ -50,20 +53,20 @@ Vec Board::get_color(const Vec &point) const {
         int a = (point.x - board_paddingx_) / pattern_size_;
         int b = (point.y - board_paddingy_) / pattern_size_;
         if(type_ == CHESSBOARD) {
-            color = Vec(1, 1, 1) * ((a + b) % 2);
+            color = Vec(1, 1, 1) * bw_level_[(a + b) % 2];
         }
         else {
             Vec r = point - Vec(board_paddingx_ + pattern_size_ * a + pattern_size_ * 0.5, board_paddingy_ + pattern_size_ * b + pattern_size_ * 0.5);
             double dist = sqrt(r.dot(r));
             int num = dist / ring_step_radius_;
             if(num < ring_num_)
-                color = Vec(1, 1, 1) * ((1 + ring_num_ + num) % 2);
+                color = Vec(1, 1, 1) * bw_level_[(1 + ring_num_ + num) % 2];
             else
-                color = Vec(1, 1, 1);
+                color = Vec(1, 1, 1) * bw_level_[1];
         }
     }
     else if (point.x >= 0 && point.x < board_width_ && point.y >= 0 && point.y < board_height_)
-        color = Vec(1, 1, 1);
+        color = Vec(1, 1, 1) * bw_level_[1];
     else
         color = Vec();
 

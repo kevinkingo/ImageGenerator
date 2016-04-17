@@ -23,6 +23,7 @@ Renderer::Renderer(const Config &config) {
     h_ = config.pic_height;
     subpix_num_ = config.subpix_num;
     sample_num_ = config.sample_num;
+    uniform_noise_amp_ = config.uniform_noise_amp;
 }
 
 void Renderer::render(const Camera &camera, const Board &board, string filename) {
@@ -55,12 +56,16 @@ void Renderer::render(const Camera &camera, const Board &board, string filename)
 }
 
 bool Renderer::write(Vec* content, std::string filename) {
+    cout << filename << endl;
     FILE* f = fopen(filename.c_str(), "w");
     fprintf(f, "P3\n%d %d\n%d\n", w_, h_, 255);
     
     for (int y = 0; y < h_; y++) {
-        for(int x = 0; x < w_; x++)
-            fprintf(f, "%d %d %d ", toInt(content[y * w_ + x].x), toInt(content[y * w_ + x].y), toInt(content[y * w_ + x].z));
+        unsigned short Xi[3] = {0, 0, static_cast<unsigned short>(y * y * y * y)};
+        for(int x = 0; x < w_; x++) {
+            double uniform_noise = (erand48(Xi) - 0.5) * 2 * uniform_noise_amp_;
+            fprintf(f, "%d %d %d ", toInt(content[y * w_ + x].x + uniform_noise), toInt(content[y * w_ + x].y + uniform_noise), toInt(content[y * w_ + x].z + uniform_noise));
+        }
         fprintf(f, "\n");
     }
     fclose(f);
