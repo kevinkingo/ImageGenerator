@@ -15,7 +15,7 @@
 
 std::string path = "../output/"; //"/Users/kingo/Desktop/SRT/workspace/ImageGenerator/output/";
 
-std::default_random_engine generator;
+std::default_random_engine generator(static_cast<unsigned short>(time(NULL)));
 std::uniform_real_distribution<double> distr(0.0,1.0);
 double erand48(unsigned short int xsubi[3]){
     return distr(generator);
