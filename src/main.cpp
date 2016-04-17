@@ -13,7 +13,7 @@
 #include "board.hpp"
 #include "renderer.hpp"
 
-std::string path = "/Users/kingo/Desktop/SRT/workspace/ImageGenerator/output/"; //"../output/";
+std::string path = "../output/"; //"/Users/kingo/Desktop/SRT/workspace/ImageGenerator/output/";
 
 std::default_random_engine generator;
 std::uniform_real_distribution<double> distr(0.0,1.0);

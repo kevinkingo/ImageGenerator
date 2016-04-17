@@ -7,6 +7,8 @@
 //
 
 #include "renderer.hpp"
+#include <mutex>
+#include <thread>
 
 using namespace std;
 
@@ -18,6 +20,31 @@ inline int toInt(double x) {
     return int(pow(clamp(x),1 / 2.2) * 255 + .5);
 }
 
+int get_feed(int h = -1) {
+    static int total_h;
+    static int row;
+    static mutex lock;
+    
+    lock.lock();
+    int ret_val;
+    
+    if (h > 0) {
+        total_h = h;
+        row = 0;
+        ret_val = row;
+    }
+    else {
+        ret_val = row;
+        if(row < total_h)
+            row++;
+        if(row % 10 == 0)
+            cout << row << endl;
+    }
+
+    lock.unlock();
+    return ret_val;
+}
+
 Renderer::Renderer(const Config &config) {
     w_ = config.pic_width;
     h_ = config.pic_height;
@@ -26,10 +53,9 @@ Renderer::Renderer(const Config &config) {
     uniform_noise_amp_ = config.uniform_noise_amp;
 }
 
-void Renderer::render(const Camera &camera, const Board &board, string filename) {
-    Vec* data = new Vec[w_ * h_];
-    
-    for(int y = 0; y < h_; y++) {
+void Renderer::worker(const Camera &camera, const Board &board, Vec *data) {
+    int y;
+    while((y = get_feed()) != h_) {
         unsigned short Xi[3] = {0, 0, static_cast<unsigned short>(y * y * y)};
         for (int x = 0; x < w_; x++) {
             for (int sx = 0; sx < subpix_num_; sx++)
@@ -46,9 +72,22 @@ void Renderer::render(const Camera &camera, const Board &board, string filename)
                     data[y * w_ + x] = data[y * w_ + x] + color * (1.0 / (subpix_num_ * subpix_num_));
                 }
         }
-        if(y % 10 == 0)
-            cout << y << endl;
     }
+}
+
+void Renderer::render(const Camera &camera, const Board &board, string filename) {
+    Vec* data = new Vec[w_ * h_];
+    get_feed(h_);
+    
+    thread threads[worker_num_];
+    for (int th = 0; th < worker_num_; th++) {
+        threads[th] = thread(&Renderer::worker, this, camera, board, data);
+    }
+    
+    for (int th = 0; th < worker_num_; th++) {
+        threads[th].join();
+    }
+
     
     write(data, filename);
     delete [] data;

@@ -14,7 +14,7 @@ enum BoardType {CHESSBOARD, RING};
 class Config {
 public:
     Config() {
-        ratio = 0.25;
+        ratio = 1.0;
         
         /*** Picture ***/
         pic_num = 1;
