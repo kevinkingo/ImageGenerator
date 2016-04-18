@@ -1,5 +1,5 @@
 build:
-	g++ -Wall -O3 -std=c++11 ../src/*.cpp -o ImageGenerator
+	g++ -Wall -pthread -O3 -std=c++11 ../src/*.cpp -o ImageGenerator
 
 run:
 	./ImageGenerator
