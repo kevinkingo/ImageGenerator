@@ -8,12 +8,13 @@
 
 #include <random>
 #include <iostream>
+#include <string>
 #include "_config.h"
 #include "camera.hpp"
 #include "board.hpp"
 #include "renderer.hpp"
 
-std::string path = "../output/"; //"/Users/kingo/Desktop/SRT/workspace/ImageGenerator/output/";
+std::string path = "/Users/kingo/Desktop/SRT/workspace/ImageGenerator/output/";//"../output/"; 
 
 std::default_random_engine generator(static_cast<unsigned short>(time(NULL)));
 std::uniform_real_distribution<double> distr(0.0,1.0);
@@ -38,7 +39,8 @@ int main(int argc, const char * argv[]) {
         Board board(config, pos, x_dir, y_dir);
         
         camera.set_focal_dist((pos + x_dir * (config.board_width * 0.5) + y_dir * (config.board_height * 0.5)).z);
-        renderer.render(camera, board, path + "test.ppm");
+        renderer.render(camera, board, path + "test" + std::to_string(i) + ".ppm");
+        std::cout << "Picture " << i << " finish." << std::endl;
     }
     
     return 0;
@@ -51,7 +53,7 @@ void get_random_pos(Config &config, Vec &pos) {
 
 void get_random_direc(Vec &x_dir, Vec &y_dir) {
     unsigned short Xi[3] = {0, 0, static_cast<unsigned short>(time(NULL) * time(NULL))};
-    x_dir = Vec(1, (erand48(Xi) - 0.5) * 0.5, (erand48(Xi) - 0.5) * 0.5).norm();
-    y_dir = ((x_dir % Vec(0, 0, -1)) + Vec(0, 0, (erand48(Xi) - 0.5) * 0.4)).norm();
+    x_dir = Vec(1, (erand48(Xi) - 0.5) * 0.6, (erand48(Xi) - 0.5) * 0.6).norm();
+    y_dir = ((x_dir % Vec(0, 0, -1)) + Vec(0, 0, (erand48(Xi) - 0.5) * 0.5)).norm();
 }
 

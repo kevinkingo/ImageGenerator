@@ -37,8 +37,8 @@ int get_feed(int h = -1) {
         ret_val = row;
         if(row < total_h)
             row++;
-        if(row % 10 == 0)
-            cout << row << endl;
+        //if(row % 10 == 0)
+        //    cout << row << endl;
     }
 
     lock.unlock();
@@ -96,7 +96,7 @@ void Renderer::render(const Camera &camera, const Board &board, string filename)
 }
 
 bool Renderer::write(Vec* content, std::string filename) {
-    cout << filename << endl;
+    //cout << filename << endl;
     FILE* f = fopen(filename.c_str(), "w");
     fprintf(f, "P3\n%d %d\n%d\n", w_, h_, 255);
     

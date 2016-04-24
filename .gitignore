@@ -3,4 +3,5 @@
 
 output/*.ppm
 output/*.png
+output/*.py
 build/*.o

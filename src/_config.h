@@ -14,15 +14,15 @@ enum BoardType {CHESSBOARD, RING};
 class Config {
 public:
     Config() {
-        ratio = 0.25;
+        ratio = 0.75;
         
         /*** Picture ***/
-        pic_num = 1;
+        pic_num = 20;
         pic_width = 1920 * ratio;
         pic_height = 1080 * ratio;
         
         /*** Board ***/
-        type = RING;
+        type = CHESSBOARD;
         board_width = 400.0; //in millimeter
         board_height = 300.0; //in millimeter
         pattern_col_num = 12;
@@ -49,11 +49,11 @@ public:
         k3 = 0.0;
         
         /*** Noise ***/
-        black_level = 50.0 / 255;  //Pixel value of the black part on board
-        white_level = 200.0 / 255; //Pixel value of the white part on board
+        black_level = 0.0 / 255;  //Pixel value of the black part on board
+        white_level = 255.0 / 255; //Pixel value of the white part on board
         
-        uniform_noise_amp = 0.02; //This noise is define under color space of [0, 1];
-        gradient_illumin = 0.05;
+        uniform_noise_amp = 0.00; //This noise is define under color space of [0, 1];
+        gradient_illumin = 1.0;
         
         /*** Debug ***/
         subpix_num = 3;
